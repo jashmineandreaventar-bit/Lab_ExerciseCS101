@@ -1,0 +1,49 @@
+---
+title: "RExercise#3 - Vectors and Lists"
+author: "Jashmine Andrea Ventar"
+date: "2026-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Part A — Creating Vectors: c(), seq(), rep()
+```{r}
+scores <- c(88, 92, 79, 95, 84)
+subjects <- c("Math", "Science", "English", "History", "PE")
+```
+```{r}
+seq(1, 19, by=2)
+seq(0, 1, length=5)
+```
+```{r}
+rep("A", 4)
+rep(c("A", "B"), each=2)
+rep(c("A", "B"), 2)
+
+Question #1: First, I created my age vector with all the numbers.
+age <- c(15, 28, 32, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 12, 42, 53, 41, 51, 35, 24, 33, 8)
+
+a. There are 34 numbers in my age vector. I can check this by running length(age).
+
+b. I type 1 / age. This divides 1 by every single number in my vector, giving me a list of fractions.
+
+c. I just glued my age list together: it puts all my original ages first, puts a 0 right in the middle, and then repeats the whole age list again. My new vector now has 69 numbers in total.
+
+d. The smallest number (minimum) in my list is 8, and the largest number (maximum) is 57.
+
+Question #2: When I use each = 2, I am telling R to repeat each item right away before moving on. So c("A", "B") becomes A, A, B, B. When I use times = 2, I am telling R to copy the whole group as a set. So c("A", "B") becomes A, B, A, B.
+
+Question #3: By = 2 controls the step size between numbers. I use this when I care about the exact distance between each step (like jumping by twos: 1, 3, 5...). length.out = 5 controls the exact total count of items I want. I use this when I need a specific number of items (like splitting a range into 5 pieces) and let R figure out the spacing for me.
+
+Question #4: a. vec_num <- 20:60
+
+b. The average is 40. I can find this by running mean(vec_num).
+
+c. The average is 40. I can find this by running mean(vec_num).
+
+d. There are 41 numbers in total (counting from 20 up to 60 inclusive).
+```
+##Part B — Subsetting (Accessing) Vectors
+
