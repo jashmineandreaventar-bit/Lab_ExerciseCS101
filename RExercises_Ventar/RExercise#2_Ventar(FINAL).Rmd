@@ -1,0 +1,111 @@
+---
+title: "RExercise: Arithmetic Operations"
+author: "Jashmine Andrea Ventar"
+date: "2026-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A - Arithmetic Operations
+```{r}
+a <- 17
+b <- 5
+
+a + b
+a - b
+a * b
+a / b
+
+a %% b
+a %/% b
+
+2^10
+
+Question #1: When I perform these operations, I see that 17 divided by 5 equals 3.4 using standard division (17 / 5), which directly combines the whole number quotient 3 from integer division (17 %/% 5) and the remaining remainder 2 from modulus division (17 %% 5) since 17 equals 5 times 3 plus 2.
+
+Question #2: Before running the code, I predicted that 10 %% 3 would equal 1 and 10 %/% 3 would equal 3. My prediction was correct because integer division (10 %/% 3) determines how many whole times 3 fits into 10, which is 3, while the modulus operator (10 %% 3) calculates the remaining remainder of 1 after subtracting 9 from 10.
+```
+## Part B - Basic Data Types
+```{r}
+x <- 42
+y <- 42L
+z <- "42"
+w <- TRUE
+v <- 3 + 2i
+
+typeof(x)
+typeof(y)
+typeof(z)
+typeof(w)
+typeof(v)
+
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+
+mode(x)
+mode(y)
+mode(z)
+mode(w)
+mode(v)
+
+Question #3: x <- 42 is stored as a decimal number ("double") because that is R's default, while y <- 42L uses the L suffix to force it to be a whole integer ("integer"). So, while both hold the value 42, typeof(x) gives "double" and typeof(y) gives "integer".
+
+Question #4: Yes, typeof(), class(), and mode() can be different for the same object. For example, for y <- 42L, both typeof(y) and class(y) return "integer", but mode(y) returns "numeric" because mode() uses broader groups. Similarly, for a matrix, typeof() returns its data type (like "double"), while class() returns "matrix".  
+```
+
+## Part C - Type Coversion
+```{r}
+num_string <- "123"
+num_val <- as.numeric(num_string)
+typeof(num_val)
+class(num_val)
+mode(num_val)
+
+as.logical(0)
+as.logical(1)
+
+bad_string <- "hello123"
+as.numeric(bad_string)
+
+Question #5: I think R gives a warning instead of crashing so that my whole script can keep running even if some data is bad. In data analysis, datasets often have missing or invalid values, so returning NA lets me finish my analysis while still alerting me to the problem.
+
+Question #6: I think both as.logical(2) and as.logical(-1) will return TRUE. After testing, I learned that R changes any number except 0 to TRUE, while 0 becomes FALSE.
+```
+## Part D - Strings, paste(), and paste0()
+```{r}
+first_name <- "Juan"
+last_name <- "Dela Cruz"
+print(first_name)
+print(last_name)
+cat(first_name, last_name)
+
+full_name <- paste(first_name, last_name)
+full_name
+paste0(first_name, last_name)
+
+paste(first_name, last_name, sep = "-")
+
+age <- 21
+paste0(full_name, "is", age, "years old.")
+
+Question #7: I learned that paste() adds a space between two strings by default, while paste0() joins them without adding any space.
+
+Question #8: No, it did not cause an error. I learned that paste0() automatically converts the number into a character string before joining it with other strings. This is similar to Part C, where I practiced converting data types using functions like as.numeric() and as.logical().
+```
+## Part E - Critical Thinking Challenge
+```{r}
+5 + 5
+
+Question #9: I think R requires explicit conversion to avoid confusion and errors. It helps me understand what type of data I am using and makes sure that R follows what I want it to do.
+
+Question #10:I think the column was read as text instead of numbers. I would use typeof(), class(), and mode() to check its data type. Then, I would use as.numeric() to convert it into numbers. I would also check for any text or invalid values that could cause warnings or turn into NA. After fixing the data, I would try using sum() again.
+```
+Conclusion
+
+In this activity, I learned that R has different data types, such as double, integer, character, logical, and complex, and each type has its own purpose. I also learned that `typeof()` tells me how R stores the data, while `class()` helps me identify what kind of object I am working with. Using conversion functions like `as.numeric()` and `as.logical()` helps me change data types when needed, but I must also check for invalid values that may produce warnings or `NA`. Overall, I realized that understanding data types and how conversion works is important because it helps me avoid errors and ensures that my calculations and operations in R produce the correct results.
