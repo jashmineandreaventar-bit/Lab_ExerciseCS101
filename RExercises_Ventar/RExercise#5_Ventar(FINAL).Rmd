@@ -1,0 +1,131 @@
+---
+title: "RExercise#5_Ventar(FINAL) - Matrix and Array"
+author: "Jashmine Andrea Ventar"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Matrices
+```{r}
+m1 <- matrix(1:9, nrow = 3, ncol = 3)
+m1
+
+m2 <- matrix(1:9, nrow = 3, ncol = 3, byrow = TRUE)
+m2
+
+scores <- matrix(c(88, 92, 79, 95, 84, 90), nrow = 2, ncol = 3, byrow = TRUE)
+rownames(scores) <- c("Quiz1", "Quiz2")
+colnames(scores) <- c("Ana", "Ben", "Cid")
+
+scores
+```
+## Question 1:
+```{r}
+## By default, R fills matrices straight down the columns, but adding byrow = TRUE makes it fill across the rows left-to-right instead, just like how you'd naturally read a table.
+```
+## Question 2:
+```{r}
+## If you try to build a 3x3 matrix with only eight numbers, R won't completely crash or error out on you. Instead, it throws a warning saying the data length isn't a multiple of the rows and triggers its classic recycling rule. Because the matrix is short by one slot, R just loops back to the very beginning of your sequence and reuses the first number to fill that final empty spot.
+```
+## Part B — Subsetting Matrices
+```{r}
+scores[1, 2]
+scores[1, ]
+scores[, "Ben"]
+
+scores[scores >= 90]
+```
+## Question 3:
+```{r}
+## When you pull just a single row or column, R automatically strips away the 2D matrix shape and downgrades it to a 1D vector because it's simpler and more efficient for R to run basic math operations on a flat list of numbers.
+```
+## Question 4:
+```{r}
+## Subsetting with `scores >= 90` flattens the result into a simple 1D vector and drops the dimension names because the matching values come from random, scattered slots across the matrix that don't fit into a neat 2D grid, so R strips the extra row/column labels to give you a clean, flat list of numbers.
+```
+## Part C — Matrix Properties and Operations
+```{r}
+dim(scores)
+nrow(scores)
+ncol(scores)
+scores_t <- t(scores)
+scores_t
+dim(scores_t)
+
+a <- matrix(1:4, nrow = 2)
+b <- matrix(5:8, nrow = 2)
+a + b
+a * b
+
+a %*% b
+```
+## Question 5:
+```{r}
+a * b
+## Is element-wise multiplication. It simply takes the number in a specific position of matrix a and multiplies it directly by the number in the exact same position of matrix b (e.g., Row 1 Col 1 x Row 1 Col 1).
+
+a %*% b
+## Is true matrix multiplication (dot product). It takes an entire row from matrix a, matches its elements with an entire column from matrix b, multiplies those matching pairs together, and sums them up to calculate a single entry in the new matrix.
+```
+## Question 6:
+```{r}
+## The row and column names have to swap positions during a transpose because the labels are tied directly to the data axes. Since transposing rotates the actual rows into columns, swapping the metadata ensures that Quiz 1's results stay attached to the right numbers instead of getting totally mixed up.
+```
+## Part D — cbind() and rbind()
+```{r}
+scores_v2 <- cbind(scores, Dex = c(85, 91))
+scores_v2
+
+scores_v3 <- rbind(scores, Quiz3 = c(80, 88, 93))
+scores_v3
+```
+## Question 7:
+```{r}
+## If you run `cbind(scores, c(85, 91, 100))`, R throws an error saying the number of rows doesn't match because `scores` only has 2 rows while your vector has 3 values. `cbind()` and `rbind()` require matching dimensions because a matrix has to be a perfectly clean rectangular grid; if you try to attach a column with 3 elements to a matrix with only 2 rows, R can't form a proper 2D structure without an extra number hanging off the edge, so it shuts it down.
+```
+## Question 8:
+```{r}
+## You’d use `rbind()` whenever you're adding new timestamped observations or daily records to an ongoing log, like appending each day's transaction totals to a semester-long sales tracker. Since columns represent fixed variables (like `Date`, `Items_Sold`, and `Revenue`), collecting new entries over time means adding more rows to the bottom of the table rather than creating brand-new columns.
+```
+## Part E — Arrays: Creating and Subsetting
+```{r}
+arr <- array(1:12, dim = c(2, 3, 2))
+arr
+
+arr[1, 2, 2]
+arr[ , , 1]
+
+dim(arr)
+```
+## Question 9:
+```{r}
+## In `dim(arr) = c(2, 3, 2)`, the first number (`2`) represents the number of rows in each individual layer, the second number (`3`) represents the number of columns, and the third number (`2`) represents the total number of those 2x3 matrices stacked together, kind of like turning pages in a book to add a third dimension.
+```
+## Question 10:
+```{r}
+## A great real world example is tracking weekly weather data across different cities, where rows are cities, columns are metrics like temperature and humidity, and the third dimension is different days of the week. A single 2D matrix would not cut it because it can only show you a flat snapshot of those metrics for a single day. To keep a clean and organized history across multiple days without scrambling your rows and columns, you need a 3D array that stacks those daily grids together like pages in a calendar.
+```
+## Part F — Critical Thinking Challenge
+```{r}
+class_a <- matrix(c(85, 90, 78, 92), nrow = 2, byrow = TRUE, dimnames = list(c("S1", "S2"), c("Midterm", "Final")))
+class_b <- matrix(c(88, 84, 95, 91), nrow = 2, byrow = TRUE, dimnames = list(c("S3", "S4"), c("Midterm", "Final")))
+all_students <- rbind(class_a, class_b)
+all_students
+
+rowMeans(all_students)
+```
+## Question 11:
+```{r}
+## I chose `rbind()` because both classes share the exact same column names, `Midterm` and `Final`. The key clue in the data was that I had different students taking the same set of exams, so stacking them vertically allowed me to add new rows of students while keeping the test categories aligned.
+```
+## Question 12:
+```{r}
+## To combine all five classes into a single matrix, I would use `rbind` to stack all five tables together into one big dataset since they all share the exact same two columns for the exams. To make sure everything worked correctly, I would run `dim` on the final result to check that the row count matches the total number of students from all five classes combined and that the column count is still two.
+```
+## Conclusion
+
+## A matrix is just a flat 2D grid with rows and columns, but an array can expand into three or more dimensions to stack multiple layers together. Because of this, arrays let me track data across extra layers like time or categories that a single matrix cannot handle. When I want to add new records to my dataset, I use rbind to stack extra rows to the bottom of my table while keeping the variables the same. For example, I would use rbind to add a new month of study hours to my tracker so my columns stay organized as my sample size grows.
