@@ -1,0 +1,98 @@
+---
+title: "RExercise#9_Ventar(FINALOUTPUT) - Basic Operations of R Programming"
+author: "Jashmine Andrea Ventar"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Data Frames
+```{r}
+##A
+shoesize <- data.frame(
+  Shoe_size = c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 10.5, 8.5, 12.0, 10.5,
+                13.0, 11.5, 8.5, 5.0, 10.0, 6.5, 7.5, 8.5, 10.5, 8.5, 10.5, 11.0, 9.0, 13.0),
+  Height    = c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 70.0, 71.0, 72.0, 64.0, 74.5, 67.0, 71.0, 71.0,
+                77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 73.0, 69.0, 72.0, 70.0, 69.0, 70.0),
+  Gender    = c("F", "F", "F", "F", "M", "F", "F", "F", "M", "F", "M", "F", "M", "M",
+                "M", "M", "F", "F", "M", "F", "F", "M", "M", "F", "M", "M", "M", "M")
+)
+
+write.csv(shoesize, "shoesize.csv", row.names = FALSE)
+
+##B
+shoes <- read.csv("shoesize.csv")
+tail(shoesize, 5)
+
+##C
+str(shoesize)
+
+head(shoesize)
+summary(shoesize)
+
+##D
+dim(shoesize)
+## 28 rows and 3 columns
+
+##E
+summary(shoesize)
+
+##F
+males_subset <- subset(shoesize, Gender == "M")
+##Subset for males
+
+females_subset <- subset(shoesize, Gender == "F")
+##Subset for females
+
+males_subset
+females_subset
+##View results
+
+##G
+mean_shoe_size <- mean(shoesize$Shoe_size)
+mean_height    <- mean(shoesize$Height)
+##Calculates the mean for shoe size and height
+
+mean_shoe_size
+mean_height
+## it displays the results
+
+colMeans(shoesize[, c("Shoe_size", "Height")])
+## it calculates both at once.
+
+##H
+## Yes, there is a strong positive relationship. Because Taller individuals generally have larger skeletal proportions, including feet. If the height is increasing, shoe size tends to increase too.
+```
+## Question 2:
+```{r}
+shoesize$Gender <- factor(shoesize$Gender)
+str(shoesize$Gender)
+```
+## Question 3:
+```{r}
+## I choose this design choice because it guarantees self-contained portability. By linking my code and data together with consistent relative paths, I ensure my project runs identically on any machine, completely free from whatever folder your R console happens to be pointing to.
+```
+## Question 4:
+```{r}
+## Running str(shoesize) shows Gender as a character vector, which is expected for text labels. If a numeric column like Shoe size imports as text due to a stray character, my calculations like mean() will throw errors, sorting will become alphabetical (e.g., "10" before "2"), and visual plots will break.
+```
+## Question 5:
+```{r}
+## I check both `head()` and `tail()` to make sure my whole dataset imported correctly. While `head()` only shows the first few rows, `tail()` helps me spot errors at the very bottom, such as missing rows, blank lines, or extra total rows that `head()` completely misses.
+```
+## Question 6:
+```{r}
+##A
+cor(shoes$Shoe_size, shoes$Height)
+
+##B
+subset(shoes, Shoe_size >= 11)
+```
+## Question 7:
+```{r}
+## Males have both a higher mean height and a larger mean shoe size compared to females. While height and shoe size generally go up together, gender is a major key factor here. Guys naturally cluster at higher heights and shoe sizes, so if you don't control for gender separately, the difference between male and female averages can distort how strongly height actually predicts shoe size on its own.
+```
+
