@@ -1,0 +1,117 @@
+---
+title: "RExercise#6_Ventar(FINAL) - Data Frames in R"
+author: "Jashmine Andrea Ventar"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Data Frames
+```{r}
+name   <- c("Ana", "Ben", "Cid", "Dex", "Eli")
+age    <- c(20, 21, 19, 22, 20)
+passed <- c(TRUE, TRUE, FALSE, TRUE, FALSE)
+
+students <- data.frame(name = name, age = age, passed = passed)
+students
+
+print(typeof(students$name))
+print(class(students$name))
+
+courses <- data.frame(course_code = c("IS101", "IS102", "IS103"), units = c(3, 3, 2), instructor  = c("Dr. P. Reyes", "Dr. R. Santos", "Dr. S. Cruz"))
+courses
+```
+## Question 1:
+```{r}
+## I need every column in a data frame to have the exact same length because a data frame is a rectangular table where every column represents a variable for the exact same set of rows. If I gave my columns different lengths, R would not know how to line up the data into a clean grid and would throw an error about variables having different lengths.
+```
+## Question 2:
+```{r}
+## This description makes sense to me because a data frame is basically a list where each column is its own separate vector. A single column forces all its items into the same data type, but because a data frame bundles these different vectors together as a list, I can keep text right next to numbers without R forcing them to mix.
+```
+## Part B — Subsetting Data Frames
+```{r}
+students$age    
+students[["age"]]    
+students["age"]  
+
+students[2, ]
+
+students[3, "name"]
+
+students[students$passed == TRUE, ]
+
+students[students$passed == TRUE & students$age > 19, ]
+```
+## Question 3:
+```{r}
+## When I run `class()` on `students$age`, I get a basic vector, but when I run it on `students["age"]`, I get a data frame. Single brackets keep the original table structure just like a list slice, while the dollar sign reaches inside to pull out the raw vector itself.
+```
+## Question 4:
+```{r}
+## The & operator checks that both conditions are true at the same time for each row. If I use the | operator instead, it keeps rows where either condition is true, which gives me a much larger table.
+```
+## Part C — Data Frame Properties
+```{r}
+str(students)
+
+dim(students)   
+nrow(students)  
+ncol(students) 
+
+names(students)
+
+summary(students)
+```
+## Question 5:
+```{r}
+## For my age column R gives me math stats like the mean, for passed it counts true and false values, and for name it just shows the class and length. A mean does not work for names because I cannot do math on plain text.
+```
+## Question 6:
+```{r}
+## I use `str()` to check my data types and structure, and `summary()` when I want a quick statistical look at the numbers.
+```
+## Part D — Data Frame Operations
+```{r}
+students$year_level <- c(2, 3, 1, 4, 2)
+students
+
+students$passed <- NULL
+students
+
+students[order(students$age), ]
+
+students[order(students$age, decreasing = TRUE), ]
+```
+## Question 7:
+```{r}
+## R would throw an error because that column is gone. This shows why I need to track my table's structure so I don't use deleted variables.
+```
+## Question 8:
+```{r}
+## order() gives me a sorted list of row numbers instead of changing the table itself. When I plug that into the row slot of students[ , ], R rearranges the whole table in that exact sequence, keeping all columns lined up.
+```
+## Part E — Critical Thinking Challenge
+```{r}
+grades <- data.frame(name = c("Ana", "Ben", "Cid", "Dex", "Eli"), 
+                  midterm = c(85, 78, 92, 88, 70), 
+                  final   = c(90, 82, 95, 84, 75))
+
+grades$average <- (grades$midterm + grades$final) / 2
+grades
+
+grades$remarks <- ifelse(grades$average >= 75, "Passed", "Failed")
+grades[grades$remarks == "Failed", c("name", "average")]
+
+grades
+```
+## Question 9:
+```{r}
+## I would create a new column to calculate the score drop between the midterm and final. Then, I would use `order()` to sort the table by that drop and by the low midterm scores. Finally, I would filter for failed students to see which pattern shows up more at the top.
+```
+## Conclusion
+
+## A data frame is a list of equal-length vectors where each column can hold its own type of data, like text or numbers. This lets me store different kinds of information side by side without forcing them to mix together. Because it keeps rows and columns neatly aligned, it is R's main tool for working with real-world tables.
