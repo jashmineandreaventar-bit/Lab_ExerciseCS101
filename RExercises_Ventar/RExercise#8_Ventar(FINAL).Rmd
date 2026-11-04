@@ -1,0 +1,137 @@
+---
+title: "RExercise#8_Ventar(FINAL) Basic Operations - sort(), rank(), and order()"
+author: "Jashmine Andrea Ventar"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Data Frames
+```{r}
+##A
+scores <- c(78, 92, 85, 92, 67, 88, 74)
+names <- c("Ana", "Ben", "Cid", "Dex", "Eli", "Fay", "Gio")
+names(scores) <- names
+
+##B
+# Ascending order
+sort(scores)
+
+# Descending order
+sort(scores, decreasing = TRUE)
+## Ascending: Eli Gio Ana Cid Fay Ben Dex 
+## 67  74  78  85  88  92  92
+## Descending: Ben Dex Fay Cid Ana Gio Eli 
+## 92  92  88  85  78  74  67
+ 
+##C
+sort(scores)
+
+##D
+subjects <- c("Science", "Math", "English", "Filipino", "PE")
+incomplete <- c(85, NA, 90, 70, NA, 95)
+
+##E
+sort(subjects)
+
+##F
+sort(incomplete)
+
+sort(incomplete, na.last = TRUE)
+```
+## Question 2:
+```{r}
+## Yes, the names stayed correctly attached to their original values. This matters because if the names didn't follow the scores, the numbers would get scrambled away from their owners, and I would accidentally give the top score to the wrong person.
+```
+## Question 3:
+```{r}
+## If `sort()` hides `NA` values without telling me, it quietly changes my data. If I just grab the first item as the lowest score, I might get the wrong answer because missing values were hidden instead of flagged.
+```
+## Question 4:
+```{r}
+## `order(scores)` gives me index positions instead of actual values. Yes, `scores[order(scores)]` matches `sort(scores)` because it uses those position numbers to pull out the values in the correct sorted order.
+```
+## Question 5:
+```{r}
+students <- data.frame(
+  name = c("Ana", "Ben", "Cid", "Dex", "Eli", "Fay", "Gio"),
+  score = c(78, 92, 85, 92, 67, 88, 74),
+  section = c("A", "B", "A", "B", "A", "B", "A")
+)
+df
+## Output: 
+##    name score section
+## 1  Ana    78       A
+## 2  Ben    92       B
+## 3  Cid    85       A
+## 4  Dex    92       B
+## 5  Eli    67       A
+## 6  Fay    88       B
+## 7  Gio    74       A
+
+##A
+students[order(students$score), ]
+## Output: 
+##    name score section
+## 5  Eli    67       A
+## 7  Gio    74       A
+## 1  Ana    78       A
+## 3  Cid    85       A
+## 6  Fay    88       B
+## 2  Ben    92       B
+## 4  Dex    92       B
+
+##B
+students[order(students$score, decreasing = TRUE), ]
+## Output:
+## name score section
+## 2  Ben    92       B
+## 4  Dex    92       B
+## 6  Fay    88       B
+## 3  Cid    85       A
+## 1  Ana    78       A
+## 7  Gio    74       A
+## 5  Eli    67       A
+```
+## Question 6:
+```{r}
+## `order(scores)` gives you position numbers instead of actual scores. On its own, a list of positions like `[5, 7, 1...]` doesn't tell you anything useful until you use it inside brackets to look up the actual values.
+```
+## Question 7:
+```{r}
+## Why sort() fails? It only works on 1D vectors and doesn't know how to sort a whole table.
+## Why order() works? It generates the exact row sequence needed, so bracket indexing (df[order(...), ]) moves whole rows together to keep all columns aligned.
+```
+## Question 8:
+```{r}
+rank(scores)
+cbind(scores, rank = rank(scores))
+
+##A
+## Both Ben and Dex got 6.5
+
+##B
+## By default, rank() orders values in ascending order (smallest to largest) and resolves ties using ties.method = "average". Since Ben and Dex share the 6th and 7th highest positions in ascending order, R adds those positions together and divides by the number of tied items.
+```
+## Question 8:
+```{r}
+##A
+sales <- data.frame(
+  employee = c("Rey", "Sam", "Tin", "Uma", "Val"),
+  units_sold = c(120, 145, 145, 98, 130)
+)
+
+sales$rank <- rank(-sales$units_sold)
+sales
+
+##B
+sales[order(sales$units_sold, decreasing = TRUE), ]
+```
+## Question 9:
+```{r}
+## No. order() is missing because it only gives strict sequential positions (1 to N), meaning it forces ties to be broken arbitrarily. It cannot calculate shared standings or fractional rankings.And rank() is needed because it evaluates values to assign equal ranks to ties.
+```
+
