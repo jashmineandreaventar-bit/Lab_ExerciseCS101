@@ -1,0 +1,178 @@
+---
+title: "RExercise#3 - Vectors and Lists"
+author: "Jashmine Andrea Ventar"
+date: "2026-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part A — Creating Vectors: c(), seq(), rep()
+```{r}
+scores <- c(88, 92, 79, 95, 84)
+subjects <- c("Math", "Science", "English", "History", "PE")
+```
+```{r}
+seq(1, 19, by=2)
+seq(0, 1, length=5)
+```
+```{r}
+rep("A", 4)
+rep(c("A", "B"), each=2)
+rep(c("A", "B"), 2)
+```
+## Question 1: 
+```{r}
+age <- c(15, 28, 32, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 12, 42, 53, 41, 51, 35, 24, 33, 8)
+
+## There are 34 data points in the vector.
+
+1 / age
+
+new_age <- c(age, 0, age)
+length(new_age) # Returns 69
+
+## When you execute new_age <- c(age, 0, age), it creates a new, combined vector that concatenates elements together.
+
+min(age) # Returns 8
+max(age) # Returns 57
+```
+## Question 2: 
+```{r}
+rep(c("A", "B"), each = 2)  
+## It takes "A", repeats it twice, then takes "B" and repeats it twice.
+
+rep(c("A", "B"), times = 2) 
+## It runs through the whole vector c("A", "B") once, and then repeats the exact same sequence a second time from the start.
+```
+## Question 3:
+```{r}
+seq(1, 20, by = 2)
+## The increment between consecutive numbers. You explicitly tell R how far apart each number should be, and R keeps generating numbers until it hits (or stops just before) the ending value.
+
+seq(1, 20, length.out = 5)
+## The exact total number of elements you want in the final vector. You tell R how many items you need, and R automatically calculates the math to space them evenly between the start and end values.
+```
+## Question 4:
+```{r}
+vec_num <- seq(20, 60)
+
+mean(vec_num)
+
+sum(vec_num)
+
+## There are 41 data points in vec_num.
+```
+## Part B — Subsetting (Accessing) Vectors
+```{r}
+grades <- c(88, 92, 79, 95, 84)
+names(grades) <- c("Math", "Science", "English", "History", "PE")
+
+grades[3]
+grades[c(1, 4)]
+grades[c("Science", "PE")]
+grades[grades >= 85]
+```
+## Question 5:
+```{r}
+##In our science lab, we were collecting daily temperature data with a sensor, but our instructor told us to always throw out the very first reading (index 1) because the probe takes a minute to calibrate and always records garbage numbers. Since I already knew the bad data was sitting right at the first spot, I didn't need to check what the actual value was—I just used negative indexing (readings[-1]) to slice it right out of my dataset before running my analysis.
+
+## For my stats final project, we were working with a giant dataset of student exam scores, and I needed to pull out everyone who scored an 85 or higher to look at who made the honor roll. I obviously had no clue which row number each high-achieving student was sitting at, especially since the dataset was huge. Instead of manually scrolling and hunting for row numbers, I just set up a logical condition (grades[grades >= 85]) so R automatically filtered and grabbed all the top scores for me in one go.
+```
+## Question 6:
+```{r}
+## R returns NA instead of throwing an error for out-of-bounds indices to prevent scripts from crashing during large-scale data processing where missing or uneven data is common.
+```
+## Question 7: 
+```{r}
+Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
+```
+## Part C — Vector Operations and append()
+```{r}
+x <- c(1, 2, 3, 4)
+y <- c(10, 20, 30, 40)
+
+sumXY <- x + y
+sumXY
+
+multiplied <- x * 2
+multiplied
+```
+
+```{r}
+z <- c(1, 2, 3, 4, 5, 6)
+short <- c(1, 0)
+
+sumZ <- z + short
+sumZ
+```
+
+```{r}
+fruits <- c("apple", "banana", "cherry")
+
+append(fruits, "date")
+append(fruits, "kiwi", after = 1)
+```
+## Question 8:
+```{r}
+##R's recycling rule makes addition work by repeatedly looping or "recycling" the shorter vector until it matches the full length of the longer vector. In this case, since z has 6 elements and short (c(1, 0)) has only 2, R automatically expands short behind the scenes by repeating it three times to become c(1, 0, 1, 0, 1, 0). Then, it adds the two vectors together element-by-element without issue.
+```
+## Question 9:
+```{r}
+## Yes, it works cleanly without any errors or warnings.
+
+## Since the length of z (6) is an exact multiple of the shorter vector's length (3), R recycles c(1, 0, 1) twice to become c(1, 0, 1, 1, 0, 1) and performs element-by-element addition.
+```
+## Part D — Lists: Creating and Subsetting
+```{r}
+student <- list(name = "Maria Santos", age = 20, grades = c(88, 92, 79), is_enrolled = TRUE)
+
+student["grades"]
+class(student)
+
+student[["grades"]]
+class(student)
+
+student$name
+
+student[["grades"]][2]
+```
+## Question 10:
+```{r}
+student["grades"]
+## A sub-list that still contains the "grades" element wrapped inside a list container. It’s like handing you a small box with the label "grades" written on it. The numbers are inside, but they're still trapped in their container.
+
+student[["grades"]]
+## The actual contents (the raw numeric vector) stripped of the list container. It’s like opening that box, taking the vector out, and handing you the actual numbers directly so you can perform math or vector operations on them immediately.
+```
+## Question 11:
+```{r}
+## A list can hold totally different data types—like strings, vectors, or whole datasets. So R uses single brackets [ ] when you just want to slice out a sub-list box, and double brackets [[ ]] when you actually need to reach inside and grab the raw item itself to work with it.
+```
+## Part E — Critical Thinking Challenge
+```{r}
+inventory <- list( item = c("Notebook", "Pen", "Eraser"),
+                   price = c(25.50, 10.00, 5.00),
+                   in_stock = c(TRUE, TRUE, FALSE))
+
+inventory[["item"]][inventory$in_stock]
+```
+
+```{r}
+inventory$item <- append(inventory$item, "Ruler")
+inventory$price <- append(inventory$price, 15.00)
+inventory$in_stock <- append(inventory$in_stock, TRUE)
+```
+## Question 12:
+```{r}
+## Since both list elements are vectors of the same length, R pulls out the `in_stock` list of `TRUE`/`FALSE` flags and uses it like a stencil over the `item` vector to filter down to only what's available.
+```
+## Question 13:
+```{r}
+## If you keep everything in separate vectors instead of a list or a data frame, you’re basically one accidental sort or filter away from completely ruining your dataset. For example, if you sort item_prices from cheapest to most expensive but forget to sort item_names right along with it, your pens suddenly cost as much as laptops and your entire dataset is completely scrambled and corrupted. Using a list or a data frame keeps everything locked together in rows, so whenever you subset, filter, or reorder, the names, prices, and stock statuses move together safely as a single unit.
+```
+## Conclusion
+
+## Vectors are pretty rigid because they have to be totally homogeneous—meaning every single item inside has to be the exact same data type, like all numbers or all text. On the flip side, lists are like the ultimate catch-all containers that can hold a messy mix of strings, numbers, logicals, and even whole other lists at the same time. You'd want to use a vector when you're just doing straightforward math or sorting on a single type of data, but whenever you're building a dataset where different attributes need to stay safely bundled together, a list is the way to go.
