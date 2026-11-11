@@ -429,9 +429,8 @@ midterm = c(78, 85, 92, 67, 74, 88, 95, 59),
 final = c(82, 79, 96, 71, 80, 91, 93, 65),
 attendance = c(95, 88, 100, 72, 90, 85, 98, 60),
 stringsAsFactors = FALSE
-)
-
-## B2
+)</code></pre>
+<pre class="r"><code>## B2
 
 str(students)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    8 obs. of  7 variables:
@@ -662,9 +661,8 @@ table(students_all$sex)</code></pre>
 
 as.integer(students_all$sex)</code></pre>
 <pre><code>##  [1] 1 2 2 1 1 2 1 2 1 2</code></pre>
-<pre class="r"><code>## The numbers just represent the factor levels in alphabetical order (1 for &quot;F&quot;, 2 for &quot;M&quot;).
-
-## E4
+<pre class="r"><code>## The numbers just represent the factor levels in alphabetical order (1 for &quot;F&quot;, 2 for &quot;M&quot;).</code></pre>
+<pre class="r"><code>## E4
 
 students_all$sex_label &lt;- factor(students_all$sex, 
                                  levels = c(&quot;F&quot;, &quot;M&quot;), 
